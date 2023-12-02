@@ -1,7 +1,7 @@
 const fs = require('fs');
 const yargs = require('yargs');
 const notes = require('./notes.js')
-const color = require('chalk');
+const chalk = require('chalk');
 
 // fs.writeFileSync('notes.txt', 'This file was created by node');
 
@@ -9,7 +9,7 @@ const color = require('chalk');
 
 // const validator = require('validator');
 // console.log(validator.isEmail('email@example.com'));
-// console.log(color.blue('Success!'));
+// console.log(chalk.blue('Success!'));
 
 // const command = process.argv[2];
 // console.log(command);
@@ -36,35 +36,39 @@ yargs.command({
             type: 'string'
         }
     },
-    handler: function (argv) {
-        notes.addNote(argv.title, argv.body)
-        // console.log('Title: '+ argv.title)
-        // console.log('Body: '+ argv.body)
-    }
+    handler: (argv) =>{notes.addNote(argv.title, argv.body)}
 })
 
 yargs.command({
     command: 'remove',
     describe: 'Remove a note',
-    handler: function () {
-        console.log('Removing the note')
-    }
+    builder: {
+        title: {
+            describe: 'Note title',
+            demandOption: true,
+            type: 'string'
+        }
+    },
+    handler: (argv) =>{notes.removeNote(argv.title)}
 })
 
 yargs.command({
     command: 'list',
     describe: 'List notes',
-    handler: function () {
-        console.log('Listing notes')
-    }
+    handler: () => {notes.listNotes()}
 })
 
 yargs.command({
     command: 'read',
-    describe: 'Read notes',
-    handler: function () {
-        console.log('Reading note')
-    }
+    describe: 'Read note',
+    builder: {
+        title: {
+            describe: 'Note title',
+            demandOption: true,
+            type: 'string'
+        }
+    },
+    handler: (argv) =>{notes.readNote(argv.title)}
 })
 
 yargs.parse();
