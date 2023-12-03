@@ -1,74 +1,56 @@
-const fs = require('fs');
-const yargs = require('yargs');
-const notes = require('./notes.js')
-const chalk = require('chalk');
+const fs = require('fs'); //Import File System Module
+const yargs = require('yargs'); //Import Yargs Module
+const notes = require('./notes.js') //Import Notes File
+const chalk = require('chalk'); //Import Chalk Module
 
-// fs.writeFileSync('notes.txt', 'This file was created by node');
-
-// fs.appendFileSync('notes.txt', 'Sup');
-
-// const validator = require('validator');
-// console.log(validator.isEmail('email@example.com'));
-// console.log(chalk.blue('Success!'));
-
-// const command = process.argv[2];
-// console.log(command);
-
-// if(command === 'add'){
-//     console.log('Adding Note!')
-// }
-// else if(command === 'remove'){
-//     console.log('Removing Note!')
-// }
-
-yargs.command({
-    command: 'add',
-    describe: 'Add a new note',
-    builder: {
+yargs.command({ //new command
+    command: 'add', //add command
+    describe: 'Add a new note', //command descripion
+    builder: { //command format
         title: {
-            describe: 'Note title',
-            demandOption: true,
-            type: 'string'
+            describe: 'Note title', //title value descripion
+            demandOption: true, //requires title
+            type: 'string' //requires title as string
         },
         body: {
-            describe: 'Note body',
-            demandOption: true,
-            type: 'string'
+            describe: 'Note body', //body value descripion
+            demandOption: true, //requires body
+            type: 'string' //requires body as string
         }
     },
-    handler: (argv) =>{notes.addNote(argv.title, argv.body)}
+    handler: (argv) =>{notes.addNote(argv.title, argv.body)} //addNote function occurs when command is executed using user args
 })
 
 yargs.command({
-    command: 'remove',
+    command: 'remove', //remove command
     describe: 'Remove a note',
     builder: {
         title: {
             describe: 'Note title',
-            demandOption: true,
-            type: 'string'
+            demandOption: true, //requires title
+            type: 'string' //requires title as string
         }
     },
-    handler: (argv) =>{notes.removeNote(argv.title)}
+    handler: (argv) =>{notes.removeNote(argv.title)} //removeNote function occurs when command is executed
 })
 
 yargs.command({
-    command: 'list',
+    command: 'list', //list command
     describe: 'List notes',
-    handler: () => {notes.listNotes()}
+    handler: () => {notes.listNotes()} //listNotes function occurs when command is executed
 })
 
 yargs.command({
-    command: 'read',
+    command: 'read', //read command
     describe: 'Read note',
     builder: {
         title: {
             describe: 'Note title',
-            demandOption: true,
-            type: 'string'
+            demandOption: true, //requires title
+            type: 'string' //requires title as string
         }
     },
-    handler: (argv) =>{notes.readNote(argv.title)}
+    handler: (argv) =>{notes.readNote(argv.title)} //readNote function occurs when command is executed
 })
 
-yargs.parse();
+yargs.parse(); //parses into normal argument string
